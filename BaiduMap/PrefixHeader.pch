@@ -1,0 +1,38 @@
+//
+//  PrefixHeader.pch
+//  BaiduMap
+//
+//  Created by WangZhaomeng on 2017/6/13.
+//  Copyright © 2017年 MaoChao Network Co. Ltd. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#define SCREEN_BOUNDS  [UIScreen mainScreen].bounds
+#define SCREEN_WIDTH   [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT  [UIScreen mainScreen].bounds.size.height
+
+#define R_G_B(_r_,_g_,_b_)          \
+[UIColor colorWithRed:_r_/255. green:_g_/255. blue:_b_/255. alpha:1.0]
+
+#define R_G_B_A(_r_,_g_,_b_,_a_)    \
+[UIColor colorWithRed:_r_/255. green:_g_/255. blue:_b_/255. alpha:_a_]
+
+#import <BaiduMapAPI_Base/BMKBaseComponent.h>//引入base相关所有的头文件
+
+#import <BaiduMapAPI_Map/BMKMapComponent.h>//引入地图功能所有的头文件
+
+#import <BaiduMapAPI_Search/BMKSearchComponent.h>//引入检索功能所有的头文件
+
+#import <BaiduMapAPI_Cloud/BMKCloudSearchComponent.h>//引入云检索功能所有的头文件
+
+#import <BaiduMapAPI_Location/BMKLocationComponent.h>//引入定位功能所有的头文件
+
+#import <BaiduMapAPI_Utils/BMKUtilsComponent.h>//引入计算工具所有的头文件
+
+#import <BaiduMapAPI_Radar/BMKRadarComponent.h>//引入周边雷达功能所有的头文件
+
+#import <BaiduMapAPI_Map/BMKMapView.h>//只引入所需的单个头文件
+
+#endif /* PrefixHeader_pch */
