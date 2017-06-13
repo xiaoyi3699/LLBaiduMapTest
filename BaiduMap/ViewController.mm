@@ -20,7 +20,7 @@
     
     self.title = @"首页";
     
-    NSArray *titles = @[@"百度地图",@"百度地图"];
+    NSArray *titles = @[@"百度地图",@"待定"];
     for (NSInteger i = 0; i < 2; i ++) {
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake(100+i*120, 200, 100, 30);
