@@ -8,13 +8,15 @@
 
 #import "LLMapViewController.h"
 
-@interface LLMapViewController ()<BMKMapViewDelegate,BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate,BMKPoiSearchDelegate>{
+@interface LLMapViewController ()<BMKMapViewDelegate,BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate,BMKPoiSearchDelegate,UITableViewDelegate,UITableViewDataSource>{
     BMKMapView         *_mapView;          //地图view
     BMKLocationService *_locService;       //定位
     BMKGeoCodeSearch   *_geocodesearch;    //地理编码主类，用来查询、返回结果信息
     BMKPointAnnotation *_pointAnnotation;  //定位大头针
     NSString           *_cityName;
     UITextField        *_searchTextField;
+    UITableView        *_tableView;
+    NSArray<BMKPoiInfo *> *_poiInfos;
 }
 
 @end
@@ -70,6 +72,23 @@
     _mapView.mapType = BMKMapTypeStandard;//设置地图为空白类型
     [self.view addSubview:_mapView];
     
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_mapView.frame)+10, SCREEN_WIDTH, SCREEN_HEIGHT-CGRectGetMaxY(_mapView.frame)-10-50)];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.backgroundColor = [UIColor clearColor];
+    _tableView.rowHeight = 60;
+    [self.view addSubview:_tableView];
+    
+    UIButton *OKBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    OKBtn.frame = CGRectMake(10, SCREEN_HEIGHT-45, SCREEN_WIDTH-20, 40);
+    OKBtn.layer.masksToBounds = YES;
+    OKBtn.layer.cornerRadius = 5;
+    OKBtn.backgroundColor = [UIColor redColor];
+    [OKBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [OKBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [OKBtn addTarget:self action:@selector(OKBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:OKBtn];
+    
     _pointAnnotation = [[BMKPointAnnotation alloc] init];
     _pointAnnotation.title = @"title";
     _pointAnnotation.subtitle = @"subtitle";
@@ -77,6 +96,33 @@
     _geocodesearch = [[BMKGeoCodeSearch alloc] init];
     _geocodesearch.delegate = self;
     [self startLocation];
+}
+
+#pragma mark - UITableViewDelete
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return _poiInfos.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LLMapTableViewCell"];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"LLMapTableViewCell"];
+    }
+    
+    if (_poiInfos.count > indexPath.row) {
+        BMKPoiInfo *poiInfo = _poiInfos[indexPath.row];
+        cell.textLabel.text = poiInfo.name;
+        cell.detailTextLabel.text = poiInfo.address;
+    }
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (_poiInfos.count > indexPath.row) {
+        BMKPoiInfo *poiInfo = _poiInfos[indexPath.row];
+        [self updateAnnotationWithCoordinate:poiInfo.pt isSearch:NO];
+    }
 }
 
 #pragma mark - 私有方法
@@ -100,7 +146,7 @@
     
     BMKCitySearchOption *citySearchOption = [[BMKCitySearchOption alloc]init];
     citySearchOption.pageIndex = 0;
-    citySearchOption.pageCapacity = 5;
+    citySearchOption.pageCapacity = 10;
     citySearchOption.city = city;
     citySearchOption.keyword = keyword;
     
@@ -127,14 +173,21 @@
 }
 
 //点击地图添加大头针
-- (void)updateAnnotationWithCoordinate:(CLLocationCoordinate2D)coordinate {
+- (void)updateAnnotationWithCoordinate:(CLLocationCoordinate2D)coordinate isSearch:(BOOL)isSearch{
     [_mapView removeAnnotation:_pointAnnotation];
     _pointAnnotation.coordinate = coordinate;
     [_mapView addAnnotation:_pointAnnotation];
     
     [_mapView setCenterCoordinate:coordinate animated:YES];
     
-    [self reverseGeoCodeWithCLLocationCoordinate2D:coordinate];
+    if (isSearch) {
+        [self reverseGeoCodeWithCLLocationCoordinate2D:coordinate];
+    }
+}
+
+//确定按钮的点击事件
+- (void)OKBtnClick:(UIButton *)btn {
+    NSLog(@"确定");
 }
 
 #pragma mark - 百度地图相关代理
@@ -166,15 +219,10 @@
     NSLog(@"address:%@",result.address);
     
     _cityName = result.addressDetail.city;
-    
-    for (BMKPoiInfo *poiInfo in result.poiList) {
-        NSLog(@"name:%@",poiInfo.name);
-    }
-    //addressDetail:   层次化地址信息
-    //address:         地址名称
-    //businessCircle:  商圈名称
-    //location:        地址坐标
-    //poiList:         地址周边POI信息，成员类型为BMKPoiInfo
+    _poiInfos = result.poiList;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [_tableView reloadData];
+    });
 }
 
 ///位置检索delegate
@@ -182,10 +230,10 @@
     
     if(errorCode == BMK_SEARCH_NO_ERROR) {
         
-        for (BMKPoiInfo *info in poiResult.poiInfoList) {
-            
-            NSLog(@"%@",info.name);
-        }
+        _poiInfos = poiResult.poiInfoList;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_tableView reloadData];
+        });
     }
 }
 
@@ -195,11 +243,11 @@
 }
 
 - (void)mapView:(BMKMapView *)mapView onClickedMapBlank:(CLLocationCoordinate2D)coordinate{
-    [self updateAnnotationWithCoordinate:coordinate];
+    [self updateAnnotationWithCoordinate:coordinate isSearch:YES];
 }
 
 - (void)mapView:(BMKMapView *)mapView onClickedMapPoi:(BMKMapPoi *)mapPoi {
-    [self updateAnnotationWithCoordinate:mapPoi.pt];
+    [self updateAnnotationWithCoordinate:mapPoi.pt isSearch:YES];
 }
 
 - (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view {
