@@ -297,9 +297,9 @@
     
     _cityName = result.addressDetail.city;
     _resultPoiInfos = result.poiList;
+    [_resultTableView reloadData];
     if (_resultPoiInfos.count) {
         _poiInfo = _resultPoiInfos.firstObject;
-        [_resultTableView reloadData];
         [_resultTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }
 }
@@ -310,8 +310,9 @@
     if(errorCode == BMK_SEARCH_NO_ERROR) {
         _searchPoiInfos = poiResult.poiInfoList;
         _poiInfo = _searchPoiInfos.firstObject;
+        [_searchTableView reloadData];
         if (_searchPoiInfos.count) {
-            [_searchTableView reloadData];
+            [_searchTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
         }
     }
 }
