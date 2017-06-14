@@ -220,9 +220,7 @@
     
     _cityName = result.addressDetail.city;
     _poiInfos = result.poiList;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [_tableView reloadData];
-    });
+    [_tableView reloadData];
 }
 
 ///位置检索delegate
@@ -231,9 +229,7 @@
     if(errorCode == BMK_SEARCH_NO_ERROR) {
         
         _poiInfos = poiResult.poiInfoList;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_tableView reloadData];
-        });
+        [_tableView reloadData];
     }
 }
 
