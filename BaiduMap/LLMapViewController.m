@@ -8,15 +8,18 @@
 
 #import "LLMapViewController.h"
 
-@interface LLMapViewController ()<BMKMapViewDelegate,BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate,BMKPoiSearchDelegate,UITableViewDelegate,UITableViewDataSource>{
-    BMKMapView         *_mapView;          //地图view
-    BMKLocationService *_locService;       //定位
-    BMKGeoCodeSearch   *_geocodesearch;    //地理编码主类，用来查询、返回结果信息
-    BMKPointAnnotation *_pointAnnotation;  //定位大头针
+@interface LLMapViewController ()<BMKMapViewDelegate,BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate,BMKPoiSearchDelegate,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextFieldDelegate>{
+    BMKMapView         *_mapView;           //地图view
+    BMKLocationService *_locService;        //定位
+    BMKGeoCodeSearch   *_geocodesearch;     //地理编码主类，用来查询、返回结果信息
+    BMKPointAnnotation *_pointAnnotation;   //定位大头针
     NSString           *_cityName;
     UITextField        *_searchTextField;
-    UITableView        *_tableView;
-    NSArray<BMKPoiInfo *> *_poiInfos;
+    UITableView        *_resultTableView;   //定位结果列表
+    UITableView        *_searchTableView;   //搜索框搜索时，提示信息列表
+    UIVisualEffectView *_effectView;
+    NSArray<BMKPoiInfo *> *_resultPoiInfos;
+    NSArray<BMKPoiInfo *> *_searchPoiInfos;
 }
 
 @end
@@ -61,23 +64,26 @@
     _searchTextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(searchImageView.frame)+5, 4, CGRectGetWidth(inputView.frame)-CGRectGetMaxX(searchImageView.frame)-10, 30)];
     _searchTextField.textColor = [UIColor darkGrayColor];
     _searchTextField.font = [UIFont systemFontOfSize:16];
-    _searchTextField.text = @"重庆市江北区红旗河沟时代名居C座";
+    //_searchTextField.text = @"重庆市江北区红旗河沟时代名居C座";
     _searchTextField.placeholder = @"请搜索您的小区或大厦、街道名称";
+    _searchTextField.delegate = self;
+    [_searchTextField addTarget:self action:@selector(textFieldValueChanged:) forControlEvents:UIControlEventEditingChanged];
     [inputView addSubview:_searchTextField];
     
     //添加地图视图
-    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(inputView.frame)+2, SCREEN_WIDTH, SCREEN_WIDTH*0.6)];
+    _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(CGRectGetMinX(inputView.frame), CGRectGetMaxY(inputView.frame)+2, CGRectGetWidth(inputView.frame), SCREEN_WIDTH*0.6)];
     _mapView.showsUserLocation = YES; //是否显示定位图层（即我的位置的小圆点）
     _mapView.zoomLevel = 15;//地图显示比例
     _mapView.mapType = BMKMapTypeStandard;//设置地图为空白类型
     [self.view addSubview:_mapView];
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_mapView.frame)+10, SCREEN_WIDTH, SCREEN_HEIGHT-CGRectGetMaxY(_mapView.frame)-10-50)];
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
-    _tableView.backgroundColor = [UIColor clearColor];
-    _tableView.rowHeight = 60;
-    [self.view addSubview:_tableView];
+    _resultTableView = [[UITableView alloc] initWithFrame:CGRectMake(CGRectGetMinX(inputView.frame), CGRectGetMaxY(_mapView.frame)+10, CGRectGetWidth(inputView.frame), SCREEN_HEIGHT-CGRectGetMaxY(_mapView.frame)-10-50)];
+    _resultTableView.delegate = self;
+    _resultTableView.dataSource = self;
+    _resultTableView.backgroundColor = [UIColor clearColor];
+    _resultTableView.rowHeight = 50;
+    _resultTableView.tableFooterView = [UIView new];
+    [self.view addSubview:_resultTableView];
     
     UIButton *OKBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     OKBtn.frame = CGRectMake(10, SCREEN_HEIGHT-45, SCREEN_WIDTH-20, 40);
@@ -88,6 +94,25 @@
     [OKBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [OKBtn addTarget:self action:@selector(OKBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:OKBtn];
+    
+    UIBlurEffect *effect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    _effectView = [[UIVisualEffectView alloc] initWithEffect:effect];
+    _effectView.frame = CGRectMake(0, CGRectGetMaxY(inputView.frame), SCREEN_WIDTH, SCREEN_HEIGHT-CGRectGetMaxY(inputView.frame));
+    _effectView.hidden = YES;
+    [self.view addSubview:_effectView];
+    
+    CGRect rect = _effectView.bounds;
+    rect.origin.x = CGRectGetMinX(inputView.frame);
+    rect.origin.y = 5;
+    rect.size.width = CGRectGetWidth(inputView.frame);
+    rect.size.height -= 10;
+    _searchTableView = [[UITableView alloc] initWithFrame:rect];
+    _searchTableView.delegate = self;
+    _searchTableView.dataSource = self;
+    _searchTableView.backgroundColor = [UIColor clearColor];
+    _searchTableView.rowHeight = 50;
+    _searchTableView.tableFooterView = [UIView new];
+    [_effectView addSubview:_searchTableView];
     
     _pointAnnotation = [[BMKPointAnnotation alloc] init];
     _pointAnnotation.title = @"title";
@@ -100,7 +125,14 @@
 
 #pragma mark - UITableViewDelete
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _poiInfos.count;
+    NSArray *poiInfos;
+    if (tableView == _resultTableView) {
+        poiInfos = _resultPoiInfos;
+    }
+    else {
+        poiInfos = _searchPoiInfos;
+    }
+    return poiInfos.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -108,10 +140,19 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LLMapTableViewCell"];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"LLMapTableViewCell"];
+        cell.backgroundColor = [UIColor colorWithRed:250/255. green:250/255. blue:250/255. alpha:1];
     }
     
-    if (_poiInfos.count > indexPath.row) {
-        BMKPoiInfo *poiInfo = _poiInfos[indexPath.row];
+    NSArray *poiInfos;
+    if (tableView == _resultTableView) {
+        poiInfos = _resultPoiInfos;
+    }
+    else {
+        poiInfos = _searchPoiInfos;
+    }
+    
+    if (poiInfos.count > indexPath.row) {
+        BMKPoiInfo *poiInfo = poiInfos[indexPath.row];
         cell.textLabel.text = poiInfo.name;
         cell.detailTextLabel.text = poiInfo.address;
     }
@@ -119,10 +160,50 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (_poiInfos.count > indexPath.row) {
-        BMKPoiInfo *poiInfo = _poiInfos[indexPath.row];
-        [self updateAnnotationWithCoordinate:poiInfo.pt isSearch:NO];
+    [self.view endEditing:YES];
+    NSArray *poiInfos;
+    BOOL isSearch;
+    if (tableView == _resultTableView) {
+        poiInfos = _resultPoiInfos;
+        isSearch = NO;
     }
+    else {
+        poiInfos = _searchPoiInfos;
+        isSearch = YES;
+    }
+    
+    if (poiInfos.count > indexPath.row) {
+        BMKPoiInfo *poiInfo = poiInfos[indexPath.row];
+        [self updateAnnotationWithCoordinate:poiInfo.pt isSearch:isSearch];
+    }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    [self.view endEditing:YES];
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    if (textField.text.length) {
+        _effectView.hidden = NO;
+        [self searchWithCity:_cityName keyword:textField.text];
+    }
+    else {
+        _effectView.hidden = YES;
+    }
+}
+
+- (void)textFieldValueChanged:(UITextField *)textField {
+    if (textField.text.length) {
+        _effectView.hidden = NO;
+        [self searchWithCity:_cityName keyword:textField.text];
+    }
+    else {
+        _effectView.hidden = YES;
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField {
+    
 }
 
 #pragma mark - 私有方法
@@ -146,7 +227,7 @@
     
     BMKCitySearchOption *citySearchOption = [[BMKCitySearchOption alloc]init];
     citySearchOption.pageIndex = 0;
-    citySearchOption.pageCapacity = 10;
+    citySearchOption.pageCapacity = 15;
     citySearchOption.city = city;
     citySearchOption.keyword = keyword;
     
@@ -182,6 +263,7 @@
     
     if (isSearch) {
         [self reverseGeoCodeWithCLLocationCoordinate2D:coordinate];
+        _effectView.hidden = YES;
     }
 }
 
@@ -219,8 +301,8 @@
     NSLog(@"address:%@",result.address);
     
     _cityName = result.addressDetail.city;
-    _poiInfos = result.poiList;
-    [_tableView reloadData];
+    _resultPoiInfos = result.poiList;
+    [_resultTableView reloadData];
 }
 
 ///位置检索delegate
@@ -228,8 +310,10 @@
     
     if(errorCode == BMK_SEARCH_NO_ERROR) {
         
-        _poiInfos = poiResult.poiInfoList;
-        [_tableView reloadData];
+        _searchPoiInfos = poiResult.poiInfoList;
+        if (_searchPoiInfos.count) {
+            [_searchTableView reloadData];
+        }
     }
 }
 
