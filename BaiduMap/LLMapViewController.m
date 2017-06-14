@@ -273,7 +273,8 @@
 //确定按钮的点击事件
 - (void)OKBtnClick:(UIButton *)btn {
     NSString *detailAddress = [NSString stringWithFormat:@"%@%@(%@)",_poiInfo.city,_poiInfo.address,_poiInfo.name];
-    NSLog(@"所选地址为：%@",detailAddress);
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"地址" message:detailAddress delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    [alertView show];
 }
 
 #pragma mark - 百度地图相关代理
@@ -306,8 +307,12 @@
     
     _cityName = result.addressDetail.city;
     _resultPoiInfos = result.poiList;
-    _poiInfo = _resultPoiInfos.firstObject;
-    [_resultTableView reloadData];
+    
+    if (_resultPoiInfos.count) {
+        _poiInfo = _resultPoiInfos.firstObject;
+        [_resultTableView reloadData];
+        [_resultTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    }
 }
 
 ///位置检索delegate
