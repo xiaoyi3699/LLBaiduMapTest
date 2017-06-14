@@ -20,6 +20,8 @@
     UIVisualEffectView *_effectView;
     NSArray<BMKPoiInfo *> *_resultPoiInfos;
     NSArray<BMKPoiInfo *> *_searchPoiInfos;
+    
+    BMKPoiInfo         *_poiInfo;
 }
 
 @end
@@ -174,6 +176,7 @@
     
     if (poiInfos.count > indexPath.row) {
         BMKPoiInfo *poiInfo = poiInfos[indexPath.row];
+        _poiInfo = poiInfo;
         [self updateAnnotationWithCoordinate:poiInfo.pt isSearch:isSearch];
     }
 }
@@ -269,7 +272,8 @@
 
 //确定按钮的点击事件
 - (void)OKBtnClick:(UIButton *)btn {
-    NSLog(@"确定");
+    NSString *detailAddress = [NSString stringWithFormat:@"%@%@(%@)",_poiInfo.city,_poiInfo.address,_poiInfo.name];
+    NSLog(@"所选地址为：%@",detailAddress);
 }
 
 #pragma mark - 百度地图相关代理
@@ -302,6 +306,7 @@
     
     _cityName = result.addressDetail.city;
     _resultPoiInfos = result.poiList;
+    _poiInfo = _resultPoiInfos.firstObject;
     [_resultTableView reloadData];
 }
 
@@ -311,6 +316,7 @@
     if(errorCode == BMK_SEARCH_NO_ERROR) {
         
         _searchPoiInfos = poiResult.poiInfoList;
+        _poiInfo = _searchPoiInfos.firstObject;
         if (_searchPoiInfos.count) {
             [_searchTableView reloadData];
         }
