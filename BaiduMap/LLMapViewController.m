@@ -39,13 +39,13 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [_mapView viewWillAppear];
-    _mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
+    _mapView.delegate = self;
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [_mapView viewWillDisappear];
-    _mapView.delegate = nil; // 不用时，置nil
+    _mapView.delegate = nil;
 }
 
 - (void)viewDidLoad {
@@ -125,7 +125,8 @@
     [self startLocation];
 }
 
-#pragma mark - UITableViewDelete
+#pragma mark - 视图相关代理
+//UITableViewDelete && UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSArray *poiInfos;
     if (tableView == _resultTableView) {
@@ -181,10 +182,12 @@
     }
 }
 
+//UIScrollViewDelete
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     [self.view endEditing:YES];
 }
 
+//UITextFieldDelete
 - (void)textFieldDidBeginEditing:(UITextField *)textField {
     if (textField.text.length) {
         _effectView.hidden = NO;
@@ -203,10 +206,6 @@
     else {
         _effectView.hidden = YES;
     }
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-    
 }
 
 #pragma mark - 私有方法
