@@ -117,8 +117,6 @@
     [_effectView addSubview:_searchTableView];
     
     _pointAnnotation = [[BMKPointAnnotation alloc] init];
-    _pointAnnotation.title = @"title";
-    _pointAnnotation.subtitle = @"subtitle";
     
     _geocodesearch = [[BMKGeoCodeSearch alloc] init];
     _geocodesearch.delegate = self;
@@ -260,9 +258,7 @@
     [_mapView removeAnnotation:_pointAnnotation];
     _pointAnnotation.coordinate = coordinate;
     [_mapView addAnnotation:_pointAnnotation];
-    
     [_mapView setCenterCoordinate:coordinate animated:YES];
-    
     if (isSearch) {
         [self reverseGeoCodeWithCLLocationCoordinate2D:coordinate];
         _effectView.hidden = YES;
@@ -285,13 +281,10 @@
 - (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation{
     
     [_locService stopUserLocationService];
-    
     //更新地图上的位置
     [_mapView updateLocationData:userLocation];
-    
     //更新当前位置到地图中间
     _mapView.centerCoordinate = userLocation.location.coordinate;
-    
     [self reverseGeoCodeWithCLLocationCoordinate2D:userLocation.location.coordinate];
 }
 
@@ -300,13 +293,10 @@
 }
 
 ///地理反编码的delegate
--(void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error
-{
-    NSLog(@"address:%@",result.address);
+-(void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error {
     
     _cityName = result.addressDetail.city;
     _resultPoiInfos = result.poiList;
-    
     if (_resultPoiInfos.count) {
         _poiInfo = _resultPoiInfos.firstObject;
         [_resultTableView reloadData];
@@ -318,7 +308,6 @@
 - (void)onGetPoiResult:(BMKPoiSearch *)searcher result:(BMKPoiResult *)poiResult errorCode:(BMKSearchErrorCode)errorCode{
     
     if(errorCode == BMK_SEARCH_NO_ERROR) {
-        
         _searchPoiInfos = poiResult.poiInfoList;
         _poiInfo = _searchPoiInfos.firstObject;
         if (_searchPoiInfos.count) {
@@ -341,7 +330,6 @@
 }
 
 - (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view {
-    
     [_mapView setCenterCoordinate:view.annotation.coordinate animated:YES];
 }
 
