@@ -8,10 +8,12 @@
 
 #import "LLUserInfoViewController.h"
 #import "LLUserInfoTableViewCell.h"
+#import "LLPhoneViewController.h"
+#import "LLNickViewController.h"
 #import "LLDatePicker.h"
 #import "LLSexView.h"
 
-@interface LLUserInfoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UITableViewDelegate,UITableViewDataSource,LLDatePickerDelete,LLSexViewDelete>
+@interface LLUserInfoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UITableViewDelegate,UITableViewDataSource,LLDatePickerDelegete,LLSexViewDelegete,LLNickViewControllerDelegate,LLPhoneViewControllerDelegate>
 
 @property (nonatomic, strong) UITableView             *tableView;
 @property (nonatomic, strong) NSArray                 *titles;
@@ -176,7 +178,9 @@
         [self presentViewController:alertController animated:YES completion:nil];
     }
     else if (indexPath.row == 1) {//昵称
-        
+        LLNickViewController *nickVC = [LLNickViewController new];
+        nickVC.delegate = self;
+        [self.navigationController pushViewController:nickVC animated:YES];
     }
     else if (indexPath.row == 2) {//性别
         [[LLPopupAnimator animator] popUpView:self.sexView
@@ -191,7 +195,9 @@
                                    completion:nil];
     }
     else {//手机
-        
+        LLPhoneViewController *phoneVC = [LLPhoneViewController new];
+        phoneVC.delegate = self;
+        [self.navigationController pushViewController:phoneVC animated:YES];
     }
 }
 
@@ -214,6 +220,16 @@
 - (void)sexView:(LLSexView *)sexView selectedSex:(NSString *)sex {
     [[LLPopupAnimator animator] dismiss];
     [_subTitles replaceObjectAtIndex:2 withObject:sex];
+    [_tableView reloadData];
+}
+
+- (void)nickViewController:(LLNickViewController *)nickViewController didFinishWithNick:(NSString *)nick {
+    [_subTitles replaceObjectAtIndex:1 withObject:nick];
+    [_tableView reloadData];
+}
+
+- (void)phoneViewController:(LLPhoneViewController *)phoneViewController didFinishWithPhone:(NSString *)phone {
+    [_subTitles replaceObjectAtIndex:4 withObject:phone];
     [_tableView reloadData];
 }
 

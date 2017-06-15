@@ -7,16 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-@protocol LLDatePickerDelete;
+@protocol LLDatePickerDelegete;
 
 @interface LLDatePicker : UIView
 
 @property (nonatomic, strong) NSDate *date;
-@property (nonatomic, weak) id<LLDatePickerDelete> delegete;
+@property (nonatomic, weak) id<LLDatePickerDelegete> delegete;
 
 @end
 
-@protocol LLDatePickerDelete <NSObject>
+@protocol LLDatePickerDelegete <NSObject>
 
 @optional
 - (void)datePicker:(LLDatePicker *)datePicker didClickOK:(BOOL)OK;

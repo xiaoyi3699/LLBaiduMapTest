@@ -36,6 +36,8 @@
 		751F91691EF26C0300D78EB4 /* UIView+LLAddPart.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F91681EF26C0300D78EB4 /* UIView+LLAddPart.m */; };
 		751F916C1EF26F7600D78EB4 /* LLDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F916B1EF26F7600D78EB4 /* LLDatePicker.m */; };
 		751F916F1EF27D5E00D78EB4 /* LLSexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F916E1EF27D5E00D78EB4 /* LLSexView.m */; };
+		751F91721EF282C100D78EB4 /* LLNickViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F91711EF282C100D78EB4 /* LLNickViewController.m */; };
+		751F91751EF2830500D78EB4 /* LLPhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F91741EF2830500D78EB4 /* LLPhoneViewController.m */; };
 		756DE3F01EEF736C00EF4D77 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 756DE3EF1EEF736C00EF4D77 /* main.m */; };
 		756DE3F31EEF736C00EF4D77 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 756DE3F21EEF736C00EF4D77 /* AppDelegate.m */; };
 		756DE3F61EEF736C00EF4D77 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 756DE3F51EEF736C00EF4D77 /* ViewController.mm */; };
@@ -144,6 +146,10 @@
 		751F916B1EF26F7600D78EB4 /* LLDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDatePicker.m; sourceTree = "<group>"; };
 		751F916D1EF27D5E00D78EB4 /* LLSexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSexView.h; sourceTree = "<group>"; };
 		751F916E1EF27D5E00D78EB4 /* LLSexView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSexView.m; sourceTree = "<group>"; };
+		751F91701EF282C100D78EB4 /* LLNickViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLNickViewController.h; sourceTree = "<group>"; };
+		751F91711EF282C100D78EB4 /* LLNickViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLNickViewController.m; sourceTree = "<group>"; };
+		751F91731EF2830500D78EB4 /* LLPhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPhoneViewController.h; sourceTree = "<group>"; };
+		751F91741EF2830500D78EB4 /* LLPhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPhoneViewController.m; sourceTree = "<group>"; };
 		756DE3EB1EEF736C00EF4D77 /* BaiduMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaiduMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		756DE3EF1EEF736C00EF4D77 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		756DE3F11EEF736C00EF4D77 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -242,6 +248,10 @@
 			children = (
 				751F91141EF25A4600D78EB4 /* LLUserInfoViewController.h */,
 				751F91151EF25A4600D78EB4 /* LLUserInfoViewController.m */,
+				751F91701EF282C100D78EB4 /* LLNickViewController.h */,
+				751F91711EF282C100D78EB4 /* LLNickViewController.m */,
+				751F91731EF2830500D78EB4 /* LLPhoneViewController.h */,
+				751F91741EF2830500D78EB4 /* LLPhoneViewController.m */,
 			);
 			name = LLUserInfo;
 			sourceTree = "<group>";
@@ -575,8 +585,10 @@
 				751F915D1EF2617800D78EB4 /* UIView+WebCache.m in Sources */,
 				751F91501EF2617800D78EB4 /* SDImageCacheConfig.m in Sources */,
 				751F914B1EF2617800D78EB4 /* FLAnimatedImageView.m in Sources */,
+				751F91721EF282C100D78EB4 /* LLNickViewController.m in Sources */,
 				751F914C1EF2617800D78EB4 /* MKAnnotationView+WebCache.m in Sources */,
 				751F91651EF269F700D78EB4 /* LLPopupAnimator.m in Sources */,
+				751F91751EF2830500D78EB4 /* LLPhoneViewController.m in Sources */,
 				751F91571EF2617800D78EB4 /* UIButton+WebCache.m in Sources */,
 				751F91541EF2617800D78EB4 /* SDWebImageDownloaderOperation.m in Sources */,
 				751F91491EF2617800D78EB4 /* FLAnimatedImage.m in Sources */,

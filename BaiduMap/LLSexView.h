@@ -7,15 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-@protocol LLSexViewDelete;
+@protocol LLSexViewDelegete;
 
 @interface LLSexView : UIView
 
-@property (nonatomic, weak) id<LLSexViewDelete> delegate;
+@property (nonatomic, weak) id<LLSexViewDelegete> delegate;
 
 @end
 
-@protocol LLSexViewDelete <NSObject>
+@protocol LLSexViewDelegete <NSObject>
 
 @optional
 - (void)sexView:(LLSexView *)sexView selectedSex:(NSString *)sex;
