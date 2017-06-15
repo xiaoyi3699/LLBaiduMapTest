@@ -12,6 +12,7 @@
 @interface LLPhoneViewController : UIViewController
 
 @property (nonatomic, weak) id<LLPhoneViewControllerDelegate> delegate;
+@property (nonatomic, strong) NSString *originalPhone;
 
 @end
 

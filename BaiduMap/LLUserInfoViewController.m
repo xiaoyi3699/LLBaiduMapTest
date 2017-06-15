@@ -197,6 +197,7 @@
     else {//手机
         LLPhoneViewController *phoneVC = [LLPhoneViewController new];
         phoneVC.delegate = self;
+        phoneVC.originalPhone = _subTitles[4];
         [self.navigationController pushViewController:phoneVC animated:YES];
     }
 }
