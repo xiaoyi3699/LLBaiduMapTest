@@ -8,8 +8,9 @@
 
 #import "LLUserInfoViewController.h"
 #import "LLUserInfoTableViewCell.h"
+#import "LLDatePicker.h"
 
-@interface LLUserInfoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface LLUserInfoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UITableViewDelegate,UITableViewDataSource,LLDatePickerDelete>
 
 @property (nonatomic, strong) UITableView             *tableView;
 @property (nonatomic, strong) NSArray                 *titles;
@@ -17,6 +18,8 @@
 @property (nonatomic, assign) BOOL                    isEditing;
 @property (nonatomic, strong) UIButton                *saveBtn;
 @property (nonatomic, strong) UIImagePickerController *imagePC;
+@property (nonatomic, strong) LLDatePicker            *datePicker;
+@property (nonatomic, strong) NSDateFormatter         *dateFormatter;
 
 @end
 
@@ -83,6 +86,24 @@
     return _imagePC;
 }
 
+//初始化datePicker
+- (LLDatePicker *)datePicker {
+    if (_datePicker == nil) {
+        _datePicker = [[LLDatePicker alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 230)];
+        _datePicker.delegete = self;
+    }
+    return _datePicker;
+}
+
+//初始化时间格式器
+- (NSDateFormatter *)dateFormatter {
+    if (_dateFormatter == nil) {
+        _dateFormatter = [[NSDateFormatter alloc] init];
+        [_dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    }
+    return _dateFormatter;
+}
+
 #pragma mark - UITableViewDelegate && UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _titles.count;
@@ -111,7 +132,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_isEditing == NO) return;
     
-    if (indexPath.row == 0) {
+    if (indexPath.row == 0) {//头像
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
         UIAlertAction *action_0 = [UIAlertAction actionWithTitle:@"打开相机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -143,6 +164,21 @@
         [alertController addAction:action_2];
         [self presentViewController:alertController animated:YES completion:nil];
     }
+    else if (indexPath.row == 1) {//昵称
+        
+    }
+    else if (indexPath.row == 2) {//性别
+        
+    }
+    else if (indexPath.row == 3) {//生日
+        [[LLPopupAnimator animator] popUpView:self.datePicker
+                               animationStyle:LLAnimationStyleFromDownAnimation
+                                     duration:.3
+                                   completion:nil];
+    }
+    else {//手机
+        
+    }
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
@@ -151,6 +187,14 @@
         [_subTitles replaceObjectAtIndex:0 withObject:image];
         [_tableView reloadData];
     }];
+}
+
+- (void)datePicker:(LLDatePicker *)datePicker didClickOK:(BOOL)OK {
+    [[LLPopupAnimator animator] dismiss];
+    if (OK) {
+        [_subTitles replaceObjectAtIndex:3 withObject:[self.dateFormatter stringFromDate:datePicker.date]];
+        [_tableView reloadData];
+    }
 }
 
 - (void)rightBarButtonItemClick:(UIBarButtonItem *)rightBarButtonItem {

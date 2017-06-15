@@ -34,6 +34,7 @@
 		751F91611EF267B800D78EB4 /* UIImage+LLAddPart.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F91601EF267B800D78EB4 /* UIImage+LLAddPart.m */; };
 		751F91651EF269F700D78EB4 /* LLPopupAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F91641EF269F700D78EB4 /* LLPopupAnimator.m */; };
 		751F91691EF26C0300D78EB4 /* UIView+LLAddPart.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F91681EF26C0300D78EB4 /* UIView+LLAddPart.m */; };
+		751F916C1EF26F7600D78EB4 /* LLDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F916B1EF26F7600D78EB4 /* LLDatePicker.m */; };
 		756DE3F01EEF736C00EF4D77 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 756DE3EF1EEF736C00EF4D77 /* main.m */; };
 		756DE3F31EEF736C00EF4D77 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 756DE3F21EEF736C00EF4D77 /* AppDelegate.m */; };
 		756DE3F61EEF736C00EF4D77 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 756DE3F51EEF736C00EF4D77 /* ViewController.mm */; };
@@ -138,6 +139,8 @@
 		751F91641EF269F700D78EB4 /* LLPopupAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPopupAnimator.m; sourceTree = "<group>"; };
 		751F91671EF26C0300D78EB4 /* UIView+LLAddPart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LLAddPart.h"; sourceTree = "<group>"; };
 		751F91681EF26C0300D78EB4 /* UIView+LLAddPart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LLAddPart.m"; sourceTree = "<group>"; };
+		751F916A1EF26F7600D78EB4 /* LLDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDatePicker.h; sourceTree = "<group>"; };
+		751F916B1EF26F7600D78EB4 /* LLDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDatePicker.m; sourceTree = "<group>"; };
 		756DE3EB1EEF736C00EF4D77 /* BaiduMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaiduMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		756DE3EF1EEF736C00EF4D77 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		756DE3F11EEF736C00EF4D77 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -307,8 +310,6 @@
 				751F91681EF26C0300D78EB4 /* UIView+LLAddPart.m */,
 				751F915F1EF267B800D78EB4 /* UIImage+LLAddPart.h */,
 				751F91601EF267B800D78EB4 /* UIImage+LLAddPart.m */,
-				751F91631EF269F700D78EB4 /* LLPopupAnimator.h */,
-				751F91641EF269F700D78EB4 /* LLPopupAnimator.m */,
 			);
 			name = LLAddPart;
 			sourceTree = "<group>";
@@ -318,6 +319,10 @@
 			children = (
 				751F91171EF25B5900D78EB4 /* LLUserInfoTableViewCell.h */,
 				751F91181EF25B5900D78EB4 /* LLUserInfoTableViewCell.m */,
+				751F916A1EF26F7600D78EB4 /* LLDatePicker.h */,
+				751F916B1EF26F7600D78EB4 /* LLDatePicker.m */,
+				751F91631EF269F700D78EB4 /* LLPopupAnimator.h */,
+				751F91641EF269F700D78EB4 /* LLPopupAnimator.m */,
 			);
 			name = LLView;
 			sourceTree = "<group>";
@@ -585,6 +590,7 @@
 				751F91551EF2617800D78EB4 /* SDWebImageManager.m in Sources */,
 				751F915E1EF2617800D78EB4 /* UIView+WebCacheOperation.m in Sources */,
 				751F914F1EF2617800D78EB4 /* SDImageCache.m in Sources */,
+				751F916C1EF26F7600D78EB4 /* LLDatePicker.m in Sources */,
 				756DE3F01EEF736C00EF4D77 /* main.m in Sources */,
 				751F914D1EF2617800D78EB4 /* NSData+ImageContentType.m in Sources */,
 			);
