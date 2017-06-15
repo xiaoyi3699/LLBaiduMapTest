@@ -91,9 +91,9 @@
     OKBtn.frame = CGRectMake(10, SCREEN_HEIGHT-45, SCREEN_WIDTH-20, 40);
     OKBtn.layer.masksToBounds = YES;
     OKBtn.layer.cornerRadius = 5;
-    OKBtn.backgroundColor = [UIColor redColor];
     [OKBtn setTitle:@"确定" forState:UIControlStateNormal];
     [OKBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [OKBtn setBackgroundImage:[UIImage ll_imageWithColor:[UIColor redColor]] forState:UIControlStateNormal];
     [OKBtn addTarget:self action:@selector(OKBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:OKBtn];
     

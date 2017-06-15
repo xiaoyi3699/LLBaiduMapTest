@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "LLMapViewController.h"
+#import "LLUserInfoViewController.h"
 
 @interface ViewController ()
 
@@ -37,7 +38,7 @@
         [self.navigationController pushViewController:[LLMapViewController new] animated:YES];
     }
     else {
-        
+        [self.navigationController pushViewController:[LLUserInfoViewController new] animated:YES];
     }
 }
 
