@@ -11,11 +11,11 @@
 
 @interface LLUserInfoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UITableViewDelegate,UITableViewDataSource>
 
-@property (nonatomic, strong) UITableView  *tableView;
-@property (nonatomic, strong) NSArray      *titles;
-@property (nonatomic, strong) NSArray      *subTitles;
-@property (nonatomic, assign) BOOL         isEditing;
-@property (nonatomic, strong) UIButton     *saveBtn;
+@property (nonatomic, strong) UITableView             *tableView;
+@property (nonatomic, strong) NSArray                 *titles;
+@property (nonatomic, strong) NSMutableArray          *subTitles;
+@property (nonatomic, assign) BOOL                    isEditing;
+@property (nonatomic, strong) UIButton                *saveBtn;
 @property (nonatomic, strong) UIImagePickerController *imagePC;
 
 @end
@@ -39,11 +39,11 @@
                 @"性别:",
                 @"生日:",
                 @"手机:"];
-    _subTitles = @[@"http://touxiang.qqzhi.com/uploads/2012-11/1111105304979.jpg",
+    _subTitles = [@[@"http://touxiang.qqzhi.com/uploads/2012-11/1111105304979.jpg",
                 @"李逍遥",
                 @"男",
                 @"1998-08-08",
-                @"18888888888"];
+                @"18888888888"] mutableCopy];
     [self creaveViews];
 }
 
@@ -71,6 +71,16 @@
     [_saveBtn setBackgroundImage:[UIImage ll_imageWithColor:[UIColor redColor]] forState:UIControlStateNormal];
     [_saveBtn addTarget:self action:@selector(saveUserInfo:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_saveBtn];
+}
+
+//初始化imagePickerController
+- (UIImagePickerController *)imagePC{
+    if (!_imagePC) {
+        _imagePC = [[UIImagePickerController alloc] init];
+        _imagePC.allowsEditing = YES;
+        _imagePC.delegate = self;
+    }
+    return _imagePC;
 }
 
 #pragma mark - UITableViewDelegate && UITableViewDataSource
@@ -135,15 +145,12 @@
     }
 }
 
-
-#pragma mark - 初始化imagePickerController
-- (UIImagePickerController *)imagePC{
-    if (!_imagePC) {
-        _imagePC = [[UIImagePickerController alloc] init];
-        _imagePC.allowsEditing = YES;
-        _imagePC.delegate = self;
-    }
-    return _imagePC;
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+    [picker dismissViewControllerAnimated:YES completion:^{
+        [_subTitles replaceObjectAtIndex:0 withObject:image];
+        [_tableView reloadData];
+    }];
 }
 
 - (void)rightBarButtonItemClick:(UIBarButtonItem *)rightBarButtonItem {
