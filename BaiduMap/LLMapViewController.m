@@ -79,12 +79,14 @@
     _mapView.mapType = BMKMapTypeStandard;//设置地图为空白类型
     [self.view addSubview:_mapView];
     
+    UIView *tableFooterView = [UIView new];
+    tableFooterView.backgroundColor = [UIColor clearColor];
     _resultTableView = [[UITableView alloc] initWithFrame:CGRectMake(CGRectGetMinX(inputView.frame), CGRectGetMaxY(_mapView.frame)+10, CGRectGetWidth(inputView.frame), SCREEN_HEIGHT-CGRectGetMaxY(_mapView.frame)-10-50)];
     _resultTableView.delegate = self;
     _resultTableView.dataSource = self;
     _resultTableView.backgroundColor = [UIColor clearColor];
     _resultTableView.rowHeight = 50;
-    _resultTableView.tableFooterView = [UIView new];
+    _resultTableView.tableFooterView = tableFooterView;
     [self.view addSubview:_resultTableView];
     
     UIButton *OKBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -113,7 +115,7 @@
     _searchTableView.dataSource = self;
     _searchTableView.backgroundColor = [UIColor clearColor];
     _searchTableView.rowHeight = 50;
-    _searchTableView.tableFooterView = [UIView new];
+    _searchTableView.tableFooterView = tableFooterView;
     [_effectView addSubview:_searchTableView];
     
     _pointAnnotation = [[BMKPointAnnotation alloc] init];
