@@ -9,8 +9,9 @@
 #import "LLUserInfoViewController.h"
 #import "LLUserInfoTableViewCell.h"
 #import "LLDatePicker.h"
+#import "LLSexView.h"
 
-@interface LLUserInfoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UITableViewDelegate,UITableViewDataSource,LLDatePickerDelete>
+@interface LLUserInfoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UITableViewDelegate,UITableViewDataSource,LLDatePickerDelete,LLSexViewDelete>
 
 @property (nonatomic, strong) UITableView             *tableView;
 @property (nonatomic, strong) NSArray                 *titles;
@@ -20,6 +21,7 @@
 @property (nonatomic, strong) UIImagePickerController *imagePC;
 @property (nonatomic, strong) LLDatePicker            *datePicker;
 @property (nonatomic, strong) NSDateFormatter         *dateFormatter;
+@property (nonatomic, strong) LLSexView               *sexView;
 
 @end
 
@@ -86,13 +88,22 @@
     return _imagePC;
 }
 
-//初始化datePicker
+//初始化时间选择datePicker
 - (LLDatePicker *)datePicker {
     if (_datePicker == nil) {
         _datePicker = [[LLDatePicker alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 230)];
         _datePicker.delegete = self;
     }
     return _datePicker;
+}
+
+//初始化性别选择sexView
+- (LLSexView *)sexView {
+    if (_sexView == nil) {
+        _sexView = [[LLSexView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 122)];
+        _sexView.delegate = self;
+    }
+    return _sexView;
 }
 
 //初始化时间格式器
@@ -168,7 +179,10 @@
         
     }
     else if (indexPath.row == 2) {//性别
-        
+        [[LLPopupAnimator animator] popUpView:self.sexView
+                               animationStyle:LLAnimationStyleFromDownAnimation
+                                     duration:.3
+                                   completion:nil];
     }
     else if (indexPath.row == 3) {//生日
         [[LLPopupAnimator animator] popUpView:self.datePicker
@@ -195,6 +209,12 @@
         [_subTitles replaceObjectAtIndex:3 withObject:[self.dateFormatter stringFromDate:datePicker.date]];
         [_tableView reloadData];
     }
+}
+
+- (void)sexView:(LLSexView *)sexView selectedSex:(NSString *)sex {
+    [[LLPopupAnimator animator] dismiss];
+    [_subTitles replaceObjectAtIndex:2 withObject:sex];
+    [_tableView reloadData];
 }
 
 - (void)rightBarButtonItemClick:(UIBarButtonItem *)rightBarButtonItem {

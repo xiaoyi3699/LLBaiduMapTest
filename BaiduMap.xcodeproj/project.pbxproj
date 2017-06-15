@@ -35,6 +35,7 @@
 		751F91651EF269F700D78EB4 /* LLPopupAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F91641EF269F700D78EB4 /* LLPopupAnimator.m */; };
 		751F91691EF26C0300D78EB4 /* UIView+LLAddPart.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F91681EF26C0300D78EB4 /* UIView+LLAddPart.m */; };
 		751F916C1EF26F7600D78EB4 /* LLDatePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F916B1EF26F7600D78EB4 /* LLDatePicker.m */; };
+		751F916F1EF27D5E00D78EB4 /* LLSexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F916E1EF27D5E00D78EB4 /* LLSexView.m */; };
 		756DE3F01EEF736C00EF4D77 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 756DE3EF1EEF736C00EF4D77 /* main.m */; };
 		756DE3F31EEF736C00EF4D77 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 756DE3F21EEF736C00EF4D77 /* AppDelegate.m */; };
 		756DE3F61EEF736C00EF4D77 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 756DE3F51EEF736C00EF4D77 /* ViewController.mm */; };
@@ -141,6 +142,8 @@
 		751F91681EF26C0300D78EB4 /* UIView+LLAddPart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LLAddPart.m"; sourceTree = "<group>"; };
 		751F916A1EF26F7600D78EB4 /* LLDatePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLDatePicker.h; sourceTree = "<group>"; };
 		751F916B1EF26F7600D78EB4 /* LLDatePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLDatePicker.m; sourceTree = "<group>"; };
+		751F916D1EF27D5E00D78EB4 /* LLSexView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLSexView.h; sourceTree = "<group>"; };
+		751F916E1EF27D5E00D78EB4 /* LLSexView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLSexView.m; sourceTree = "<group>"; };
 		756DE3EB1EEF736C00EF4D77 /* BaiduMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaiduMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		756DE3EF1EEF736C00EF4D77 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		756DE3F11EEF736C00EF4D77 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -323,6 +326,8 @@
 				751F916B1EF26F7600D78EB4 /* LLDatePicker.m */,
 				751F91631EF269F700D78EB4 /* LLPopupAnimator.h */,
 				751F91641EF269F700D78EB4 /* LLPopupAnimator.m */,
+				751F916D1EF27D5E00D78EB4 /* LLSexView.h */,
+				751F916E1EF27D5E00D78EB4 /* LLSexView.m */,
 			);
 			name = LLView;
 			sourceTree = "<group>";
@@ -577,6 +582,7 @@
 				751F91491EF2617800D78EB4 /* FLAnimatedImage.m in Sources */,
 				751F91511EF2617800D78EB4 /* SDWebImageCompat.m in Sources */,
 				751F91191EF25B5900D78EB4 /* LLUserInfoTableViewCell.m in Sources */,
+				751F916F1EF27D5E00D78EB4 /* LLSexView.m in Sources */,
 				751F91591EF2617800D78EB4 /* UIImage+MultiFormat.m in Sources */,
 				751F91611EF267B800D78EB4 /* UIImage+LLAddPart.m in Sources */,
 				751F915C1EF2617800D78EB4 /* UIImageView+WebCache.m in Sources */,
