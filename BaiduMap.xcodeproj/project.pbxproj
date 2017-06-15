@@ -32,6 +32,8 @@
 		751F915D1EF2617800D78EB4 /* UIView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F91461EF2617800D78EB4 /* UIView+WebCache.m */; };
 		751F915E1EF2617800D78EB4 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F91481EF2617800D78EB4 /* UIView+WebCacheOperation.m */; };
 		751F91611EF267B800D78EB4 /* UIImage+LLAddPart.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F91601EF267B800D78EB4 /* UIImage+LLAddPart.m */; };
+		751F91651EF269F700D78EB4 /* LLPopupAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F91641EF269F700D78EB4 /* LLPopupAnimator.m */; };
+		751F91691EF26C0300D78EB4 /* UIView+LLAddPart.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F91681EF26C0300D78EB4 /* UIView+LLAddPart.m */; };
 		756DE3F01EEF736C00EF4D77 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 756DE3EF1EEF736C00EF4D77 /* main.m */; };
 		756DE3F31EEF736C00EF4D77 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 756DE3F21EEF736C00EF4D77 /* AppDelegate.m */; };
 		756DE3F61EEF736C00EF4D77 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 756DE3F51EEF736C00EF4D77 /* ViewController.mm */; };
@@ -132,6 +134,10 @@
 		751F91481EF2617800D78EB4 /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
 		751F915F1EF267B800D78EB4 /* UIImage+LLAddPart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+LLAddPart.h"; sourceTree = "<group>"; };
 		751F91601EF267B800D78EB4 /* UIImage+LLAddPart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+LLAddPart.m"; sourceTree = "<group>"; };
+		751F91631EF269F700D78EB4 /* LLPopupAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPopupAnimator.h; sourceTree = "<group>"; };
+		751F91641EF269F700D78EB4 /* LLPopupAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPopupAnimator.m; sourceTree = "<group>"; };
+		751F91671EF26C0300D78EB4 /* UIView+LLAddPart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LLAddPart.h"; sourceTree = "<group>"; };
+		751F91681EF26C0300D78EB4 /* UIView+LLAddPart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LLAddPart.m"; sourceTree = "<group>"; };
 		756DE3EB1EEF736C00EF4D77 /* BaiduMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaiduMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		756DE3EF1EEF736C00EF4D77 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		756DE3F11EEF736C00EF4D77 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -230,10 +236,6 @@
 			children = (
 				751F91141EF25A4600D78EB4 /* LLUserInfoViewController.h */,
 				751F91151EF25A4600D78EB4 /* LLUserInfoViewController.m */,
-				751F91171EF25B5900D78EB4 /* LLUserInfoTableViewCell.h */,
-				751F91181EF25B5900D78EB4 /* LLUserInfoTableViewCell.m */,
-				751F915F1EF267B800D78EB4 /* UIImage+LLAddPart.h */,
-				751F91601EF267B800D78EB4 /* UIImage+LLAddPart.m */,
 			);
 			name = LLUserInfo;
 			sourceTree = "<group>";
@@ -298,6 +300,28 @@
 			path = FLAnimatedImage;
 			sourceTree = "<group>";
 		};
+		751F91621EF269B500D78EB4 /* LLAddPart */ = {
+			isa = PBXGroup;
+			children = (
+				751F91671EF26C0300D78EB4 /* UIView+LLAddPart.h */,
+				751F91681EF26C0300D78EB4 /* UIView+LLAddPart.m */,
+				751F915F1EF267B800D78EB4 /* UIImage+LLAddPart.h */,
+				751F91601EF267B800D78EB4 /* UIImage+LLAddPart.m */,
+				751F91631EF269F700D78EB4 /* LLPopupAnimator.h */,
+				751F91641EF269F700D78EB4 /* LLPopupAnimator.m */,
+			);
+			name = LLAddPart;
+			sourceTree = "<group>";
+		};
+		751F91661EF26A5900D78EB4 /* LLView */ = {
+			isa = PBXGroup;
+			children = (
+				751F91171EF25B5900D78EB4 /* LLUserInfoTableViewCell.h */,
+				751F91181EF25B5900D78EB4 /* LLUserInfoTableViewCell.m */,
+			);
+			name = LLView;
+			sourceTree = "<group>";
+		};
 		756DE3E21EEF736C00EF4D77 = {
 			isa = PBXGroup;
 			children = (
@@ -325,6 +349,8 @@
 				751F911A1EF2617800D78EB4 /* SDWebImage */,
 				751F91131EF25A2E00D78EB4 /* LLUserInfo */,
 				751F91121EF25A0600D78EB4 /* LLBaiduMap */,
+				751F91621EF269B500D78EB4 /* LLAddPart */,
+				751F91661EF26A5900D78EB4 /* LLView */,
 				756DE4521EEFC1FA00EF4D77 /* ll_search.png */,
 				756DE44A1EEF7D2E00EF4D77 /* mapapi.bundle */,
 				756DE3F11EEF736C00EF4D77 /* AppDelegate.h */,
@@ -530,6 +556,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				751F91691EF26C0300D78EB4 /* UIView+LLAddPart.m in Sources */,
 				751F91581EF2617800D78EB4 /* UIImage+GIF.m in Sources */,
 				756DE3F61EEF736C00EF4D77 /* ViewController.mm in Sources */,
 				751F91561EF2617800D78EB4 /* SDWebImagePrefetcher.m in Sources */,
@@ -539,6 +566,7 @@
 				751F91501EF2617800D78EB4 /* SDImageCacheConfig.m in Sources */,
 				751F914B1EF2617800D78EB4 /* FLAnimatedImageView.m in Sources */,
 				751F914C1EF2617800D78EB4 /* MKAnnotationView+WebCache.m in Sources */,
+				751F91651EF269F700D78EB4 /* LLPopupAnimator.m in Sources */,
 				751F91571EF2617800D78EB4 /* UIButton+WebCache.m in Sources */,
 				751F91541EF2617800D78EB4 /* SDWebImageDownloaderOperation.m in Sources */,
 				751F91491EF2617800D78EB4 /* FLAnimatedImage.m in Sources */,

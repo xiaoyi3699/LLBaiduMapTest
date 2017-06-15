@@ -27,8 +27,12 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>请允许应用打开相机</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>是否开启定位授权</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>请允许应用打开相册</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

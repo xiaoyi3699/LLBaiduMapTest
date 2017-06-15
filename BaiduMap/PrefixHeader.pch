@@ -37,5 +37,6 @@
 
 #import "UIImageView+WebCache.h"
 #import "UIImage+LLAddPart.h"
+#import "UIView+LLAddPart.h"
 
 #endif /* PrefixHeader_pch */

@@ -9,13 +9,14 @@
 #import "LLUserInfoViewController.h"
 #import "LLUserInfoTableViewCell.h"
 
-@interface LLUserInfoViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface LLUserInfoViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView  *tableView;
 @property (nonatomic, strong) NSArray      *titles;
 @property (nonatomic, strong) NSArray      *subTitles;
 @property (nonatomic, assign) BOOL         isEditing;
 @property (nonatomic, strong) UIButton     *saveBtn;
+@property (nonatomic, strong) UIImagePickerController *imagePC;
 
 @end
 
@@ -63,7 +64,8 @@
     
     _saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     _saveBtn.frame = CGRectMake(15, SCREEN_HEIGHT-50, SCREEN_WIDTH-30, 40);
-    _saveBtn.enabled = NO;
+    _saveBtn.layer.masksToBounds = YES;
+    _saveBtn.layer.cornerRadius = 5;
     [_saveBtn setTitle:@"保存" forState:UIControlStateNormal];
     [_saveBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_saveBtn setBackgroundImage:[UIImage ll_imageWithColor:[UIColor redColor]] forState:UIControlStateNormal];
@@ -98,6 +100,50 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (_isEditing == NO) return;
+    
+    if (indexPath.row == 0) {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        UIAlertAction *action_0 = [UIAlertAction actionWithTitle:@"打开相机" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+                self.imagePC.sourceType = UIImagePickerControllerSourceTypeCamera;
+                [self presentViewController:self.imagePC animated:YES completion:nil];
+            }
+            else {
+                NSLog(@"相机打开失败");
+            }
+            
+        }];
+        UIAlertAction *action_1 = [UIAlertAction actionWithTitle:@"打开相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeSavedPhotosAlbum]){
+                self.imagePC.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+                [self presentViewController:self.imagePC animated:YES completion:nil];
+            }
+            else {
+                NSLog(@"相册打开失败");
+            }
+        }];
+        UIAlertAction *action_2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [alertController addAction:action_0];
+        [alertController addAction:action_1];
+        [alertController addAction:action_2];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+}
+
+
+#pragma mark - 初始化imagePickerController
+- (UIImagePickerController *)imagePC{
+    if (!_imagePC) {
+        _imagePC = [[UIImagePickerController alloc] init];
+        _imagePC.allowsEditing = YES;
+        _imagePC.delegate = self;
+    }
+    return _imagePC;
 }
 
 - (void)rightBarButtonItemClick:(UIBarButtonItem *)rightBarButtonItem {
