@@ -143,7 +143,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"LLMapTableViewCell"];
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"LLMapTableViewCell"];
-        cell.backgroundColor = [UIColor colorWithRed:250/255. green:250/255. blue:250/255. alpha:1];
+        cell.backgroundColor = [UIColor clearColor];
     }
     
     NSArray *poiInfos;
