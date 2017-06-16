@@ -200,6 +200,7 @@
     }
 }
 
+//其他视图相关代理
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
     [picker dismissViewControllerAnimated:YES completion:^{
@@ -235,11 +236,12 @@
 - (void)rightBarButtonItemClick:(UIBarButtonItem *)rightBarButtonItem {
     rightBarButtonItem.title = (_isEditing ? @"编辑" : @"完成");
     _saveBtn.enabled = _isEditing;
+    self.navigationItem.hidesBackButton = !_isEditing;
     _isEditing = !_isEditing;
 }
 
 - (void)saveUserInfo:(UIButton *)btn {
-    
+    NSLog(@"保存");
 }
 
 - (void)dealloc {
