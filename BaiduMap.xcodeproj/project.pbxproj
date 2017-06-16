@@ -38,6 +38,7 @@
 		751F916F1EF27D5E00D78EB4 /* LLSexView.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F916E1EF27D5E00D78EB4 /* LLSexView.m */; };
 		751F91721EF282C100D78EB4 /* LLNickViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F91711EF282C100D78EB4 /* LLNickViewController.m */; };
 		751F91751EF2830500D78EB4 /* LLPhoneViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F91741EF2830500D78EB4 /* LLPhoneViewController.m */; };
+		751F91C01EF3A6C900D78EB4 /* UITextField+LLAddPart.m in Sources */ = {isa = PBXBuildFile; fileRef = 751F91BF1EF3A6C900D78EB4 /* UITextField+LLAddPart.m */; };
 		756DE3F01EEF736C00EF4D77 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 756DE3EF1EEF736C00EF4D77 /* main.m */; };
 		756DE3F31EEF736C00EF4D77 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 756DE3F21EEF736C00EF4D77 /* AppDelegate.m */; };
 		756DE3F61EEF736C00EF4D77 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 756DE3F51EEF736C00EF4D77 /* ViewController.mm */; };
@@ -150,6 +151,8 @@
 		751F91711EF282C100D78EB4 /* LLNickViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLNickViewController.m; sourceTree = "<group>"; };
 		751F91731EF2830500D78EB4 /* LLPhoneViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLPhoneViewController.h; sourceTree = "<group>"; };
 		751F91741EF2830500D78EB4 /* LLPhoneViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLPhoneViewController.m; sourceTree = "<group>"; };
+		751F91BE1EF3A6C900D78EB4 /* UITextField+LLAddPart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+LLAddPart.h"; sourceTree = "<group>"; };
+		751F91BF1EF3A6C900D78EB4 /* UITextField+LLAddPart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+LLAddPart.m"; sourceTree = "<group>"; };
 		756DE3EB1EEF736C00EF4D77 /* BaiduMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BaiduMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		756DE3EF1EEF736C00EF4D77 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		756DE3F11EEF736C00EF4D77 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -323,6 +326,8 @@
 				751F91681EF26C0300D78EB4 /* UIView+LLAddPart.m */,
 				751F915F1EF267B800D78EB4 /* UIImage+LLAddPart.h */,
 				751F91601EF267B800D78EB4 /* UIImage+LLAddPart.m */,
+				751F91BE1EF3A6C900D78EB4 /* UITextField+LLAddPart.h */,
+				751F91BF1EF3A6C900D78EB4 /* UITextField+LLAddPart.m */,
 			);
 			name = LLAddPart;
 			sourceTree = "<group>";
@@ -608,6 +613,7 @@
 				751F91551EF2617800D78EB4 /* SDWebImageManager.m in Sources */,
 				751F915E1EF2617800D78EB4 /* UIView+WebCacheOperation.m in Sources */,
 				751F914F1EF2617800D78EB4 /* SDImageCache.m in Sources */,
+				751F91C01EF3A6C900D78EB4 /* UITextField+LLAddPart.m in Sources */,
 				751F916C1EF26F7600D78EB4 /* LLDatePicker.m in Sources */,
 				756DE3F01EEF736C00EF4D77 /* main.m in Sources */,
 				751F914D1EF2617800D78EB4 /* NSData+ImageContentType.m in Sources */,

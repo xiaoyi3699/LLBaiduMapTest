@@ -39,5 +39,6 @@
 #import "LLPopupAnimator.h"
 #import "UIImage+LLAddPart.h"
 #import "UIView+LLAddPart.h"
+#import "UITextField+LLAddPart.h"
 
 #endif /* PrefixHeader_pch */

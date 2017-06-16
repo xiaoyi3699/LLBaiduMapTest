@@ -9,19 +9,20 @@
 #import "LLMapViewController.h"
 
 @interface LLMapViewController ()<BMKMapViewDelegate,BMKGeoCodeSearchDelegate,BMKLocationServiceDelegate,BMKPoiSearchDelegate,UITableViewDelegate,UITableViewDataSource,UIScrollViewDelegate,UITextFieldDelegate>{
-    BMKMapView         *_mapView;           //地图view
-    BMKLocationService *_locService;        //定位
-    BMKGeoCodeSearch   *_geocodesearch;     //地理编码主类，用来查询、返回结果信息
-    BMKPointAnnotation *_pointAnnotation;   //定位大头针
-    NSString           *_cityName;
-    UITextField        *_searchTextField;
-    UITableView        *_resultTableView;   //定位结果列表
-    UITableView        *_searchTableView;   //搜索框搜索时，提示信息列表
-    UIVisualEffectView *_effectView;
+    BMKMapView          *_mapView;           //地图view
+    BMKLocationService  *_locService;        //定位
+    BMKGeoCodeSearch    *_geocodesearch;     //地理编码主类，用来查询、返回结果信息
+    BMKPoiSearch        *_poisearch;         //城市搜索
+    BMKCitySearchOption *_citySearchOption;  //城市搜索
+    BMKPointAnnotation  *_pointAnnotation;   //定位大头针
+    NSString            *_cityName;          //定位城市名称
+    UITextField         *_searchTextField;   //位置搜索输入框
+    UITableView         *_resultTableView;   //定位结果列表
+    UITableView         *_searchTableView;   //搜索框搜索时，提示信息列表
+    UIVisualEffectView  *_effectView;
     NSArray<BMKPoiInfo *> *_resultPoiInfos;
     NSArray<BMKPoiInfo *> *_searchPoiInfos;
-    
-    BMKPoiInfo         *_poiInfo;
+    BMKPoiInfo          *_poiInfo;
 }
 
 @end
@@ -39,20 +40,46 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [_mapView viewWillAppear];
-    _mapView.delegate = self;
+    if (_mapView) {
+        _mapView.delegate = self;
+    }
+    if (_geocodesearch) {
+        _geocodesearch.delegate = self;
+    }
+    if (_poisearch) {
+        _poisearch.delegate = self;
+    }
 }
 
 -(void)viewWillDisappear:(BOOL)animated
 {
     [_mapView viewWillDisappear];
     _mapView.delegate = nil;
+    _geocodesearch.delegate = nil;
+    _poisearch.delegate = nil;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.automaticallyAdjustsScrollViewInsets = NO;
+    //百度地图定位相关
+    _pointAnnotation = [[BMKPointAnnotation alloc] init];
     
+    _geocodesearch = [[BMKGeoCodeSearch alloc] init];
+    _geocodesearch.delegate = self;
+    [self startLocation];
+    
+    _poisearch = [[BMKPoiSearch alloc] init];
+    _poisearch.delegate = self;
+    _citySearchOption = [[BMKCitySearchOption alloc] init];
+    _citySearchOption.pageIndex = 0;
+    _citySearchOption.pageCapacity = 15;
+    
+    [self createViews];
+}
+
+//创建相关视图
+- (void)createViews {
     UIView *inputView = [[UIView alloc] initWithFrame:CGRectMake(10, 66, SCREEN_WIDTH-20, 34)];
     inputView.layer.masksToBounds = YES;
     inputView.layer.cornerRadius = 5;
@@ -71,6 +98,7 @@
     _searchTextField.delegate = self;
     [_searchTextField addTarget:self action:@selector(textFieldValueChanged:) forControlEvents:UIControlEventEditingChanged];
     [inputView addSubview:_searchTextField];
+    [_searchTextField setTextFieldInputAccessoryViewWithText:@"取消" message:@"请输入位置信息"];
     
     //添加地图视图
     _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(CGRectGetMinX(inputView.frame), CGRectGetMaxY(inputView.frame)+2, CGRectGetWidth(inputView.frame), SCREEN_WIDTH*0.6)];
@@ -122,12 +150,84 @@
     _searchTableView.rowHeight = 50;
     _searchTableView.tableFooterView = tableFooterView;
     [_effectView addSubview:_searchTableView];
+}
+
+#pragma mark - 私有方法
+//开始定位
+-(void)startLocation{
     
-    _pointAnnotation = [[BMKPointAnnotation alloc] init];
+    //初始化BMKLocationService
+    _locService = [[BMKLocationService alloc]init];
+    _locService.delegate = self;
+    _locService.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
     
-    _geocodesearch = [[BMKGeoCodeSearch alloc] init];
-    _geocodesearch.delegate = self;
-    [self startLocation];
+    //启动LocationService
+    [_locService startUserLocationService];
+}
+
+//查询
+-(void)searchWithCity:(NSString *)city keyword:(NSString *)keyword{
+    
+    _citySearchOption.city = city;
+    _citySearchOption.keyword = keyword;
+    
+    BOOL flag = [_poisearch poiSearchInCity:_citySearchOption];
+    if(flag) {
+        NSLog(@"城市内检索发送成功");
+    }
+    else {
+        NSLog(@"城市内检索发送失败");
+    }
+}
+
+//地理位置反编码
+- (void)reverseGeoCodeWithCLLocationCoordinate2D:(CLLocationCoordinate2D)coordinate {
+    BMKReverseGeoCodeOption *reverseGeocodeSearchOption = [[BMKReverseGeoCodeOption alloc] init];
+    reverseGeocodeSearchOption.reverseGeoPoint = coordinate;
+    BOOL flag = [_geocodesearch reverseGeoCode:reverseGeocodeSearchOption];
+    if(flag){
+        NSLog(@"反geo检索发送成功");
+    }
+    else{
+        NSLog(@"反geo检索发送失败");
+    }
+}
+
+//点击地图添加大头针
+- (void)updateAnnotationWithCoordinate:(CLLocationCoordinate2D)coordinate isSearch:(BOOL)isSearch{
+    [_mapView removeAnnotation:_pointAnnotation];
+    _pointAnnotation.coordinate = coordinate;
+    [_mapView addAnnotation:_pointAnnotation];
+    [_mapView setCenterCoordinate:coordinate animated:YES];
+    if (isSearch) {
+        [self reverseGeoCodeWithCLLocationCoordinate2D:coordinate];
+        _effectView.hidden = YES;
+        [_resultTableView.activityIndicatorView startAnimating];
+    }
+}
+
+//确定按钮的点击事件
+- (void)OKBtnClick:(UIButton *)btn {
+    NSString *detailAddress = [NSString stringWithFormat:@"%@%@(%@)",_poiInfo.city,_poiInfo.address,_poiInfo.name];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"地址" message:detailAddress delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+    [alertView show];
+}
+
+//键盘上取消按钮的点击事件
+- (void)dealKeyboardHide {
+    [self.view endEditing:YES];
+    _effectView.hidden = YES;
+}
+
+//搜索框内容变化时调用
+- (void)textFieldValueChanged:(UITextField *)textField {
+    if (textField.text.length) {
+        _effectView.hidden = NO;
+        [self searchWithCity:_cityName keyword:textField.text];
+    }
+    else {
+        _effectView.hidden = YES;
+    }
 }
 
 #pragma mark - 视图相关代理
@@ -203,83 +303,6 @@
     }
 }
 
-- (void)textFieldValueChanged:(UITextField *)textField {
-    if (textField.text.length) {
-        _effectView.hidden = NO;
-        [self searchWithCity:_cityName keyword:textField.text];
-    }
-    else {
-        _effectView.hidden = YES;
-    }
-}
-
-#pragma mark - 私有方法
-//开始定位
--(void)startLocation{
-    
-    //初始化BMKLocationService
-    _locService = [[BMKLocationService alloc]init];
-    _locService.delegate = self;
-    _locService.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
-    
-    //启动LocationService
-    [_locService startUserLocationService];
-}
-
-//查询
--(void)searchWithCity:(NSString *)city keyword:(NSString *)keyword{
-    
-    BMKPoiSearch *poisearch = [[BMKPoiSearch alloc]init];
-    poisearch.delegate = self;
-    
-    BMKCitySearchOption *citySearchOption = [[BMKCitySearchOption alloc]init];
-    citySearchOption.pageIndex = 0;
-    citySearchOption.pageCapacity = 15;
-    citySearchOption.city = city;
-    citySearchOption.keyword = keyword;
-    
-    BOOL flag = [poisearch poiSearchInCity:citySearchOption];
-    if(flag) {
-        NSLog(@"城市内检索发送成功");
-    }
-    else {
-        NSLog(@"城市内检索发送失败");
-    }
-}
-
-//地理位置反编码
-- (void)reverseGeoCodeWithCLLocationCoordinate2D:(CLLocationCoordinate2D)coordinate {
-    BMKReverseGeoCodeOption *reverseGeocodeSearchOption = [[BMKReverseGeoCodeOption alloc] init];
-    reverseGeocodeSearchOption.reverseGeoPoint = coordinate;
-    BOOL flag = [_geocodesearch reverseGeoCode:reverseGeocodeSearchOption];
-    if(flag){
-        NSLog(@"反geo检索发送成功");
-    }
-    else{
-        NSLog(@"反geo检索发送失败");
-    }
-}
-
-//点击地图添加大头针
-- (void)updateAnnotationWithCoordinate:(CLLocationCoordinate2D)coordinate isSearch:(BOOL)isSearch{
-    [_mapView removeAnnotation:_pointAnnotation];
-    _pointAnnotation.coordinate = coordinate;
-    [_mapView addAnnotation:_pointAnnotation];
-    [_mapView setCenterCoordinate:coordinate animated:YES];
-    if (isSearch) {
-        [self reverseGeoCodeWithCLLocationCoordinate2D:coordinate];
-        _effectView.hidden = YES;
-        [_resultTableView.activityIndicatorView startAnimating];
-    }
-}
-
-//确定按钮的点击事件
-- (void)OKBtnClick:(UIButton *)btn {
-    NSString *detailAddress = [NSString stringWithFormat:@"%@%@(%@)",_poiInfo.city,_poiInfo.address,_poiInfo.name];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"地址" message:detailAddress delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-    [alertView show];
-}
-
 #pragma mark - 百度地图相关代理
 ///处理位置变更信息的delegate
 - (void)didUpdateUserHeading:(BMKUserLocation *)userLocation{
@@ -340,6 +363,10 @@
 
 - (void)mapView:(BMKMapView *)mapView didSelectAnnotationView:(BMKAnnotationView *)view {
     [_mapView setCenterCoordinate:view.annotation.coordinate animated:YES];
+}
+
+- (void)dealloc {
+    NSLog(@"百度地图释放，无内存泄漏");
 }
 
 @end
