@@ -49,6 +49,7 @@
     
     UITextField *phoneTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 10, CGRectGetWidth(inputView.frame)-100, 30)];
     phoneTextField.placeholder = @"手机号";
+    phoneTextField.keyboardType = UIKeyboardTypeNumberPad;
     [inputView addSubview:phoneTextField];
     
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(phoneTextField.frame)+10, SCREEN_WIDTH-20, 1)];
@@ -57,6 +58,7 @@
     
     UITextField *codeTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(lineView.frame)+10, CGRectGetWidth(inputView.frame)-20, 30)];
     codeTextField.placeholder = @"验证码";
+    codeTextField.keyboardType = UIKeyboardTypeASCIICapable;
     [inputView addSubview:codeTextField];
     
     _codeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -118,6 +120,11 @@
         return [phone stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
     }
     return phone;
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    [super touchesBegan:touches withEvent:event];
+    [self.view endEditing:YES];
 }
 
 @end
