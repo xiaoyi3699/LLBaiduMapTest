@@ -32,36 +32,6 @@
  */
 + (UIImage*)ll_screenImageFromView:(UIView *)view;
 
-/**
- 根据ALAsset获取image
- */
-+ (UIImage *)ll_fullResolutionImageFromALAsset:(ALAsset *)asset;
-
-/**
- 根据ALAsset中的URL获取image
- */
-+ (UIImage *)ll_imageFromURL:(NSURL *)url;
-
-/**
- base64编码转换为图片
- */
-+ (UIImage *)ll_imageFromBase64Str:(NSString *)base64String;
-
-/**
- 创建一个动态图片，动态图片持续的时间为duration
- */
-+ (UIImage *)ll_animatedImageWithImages:(NSArray *)imageNames duration:(NSTimeInterval)duration;
-
-/**
- 从网址中获取图片
- */
-+ (UIImage *)ll_imageURLString:(NSString *)URLString;
-
-/**
- 保存图片到自定义相册
- */
-+ (void)ll_saveToAlbumName:(NSString *)albumName data:(NSData *)data completion:(void(^)())completion;
-
 #pragma mark - 实例方法
 /**
  压缩图片所占的物理内存大小 100M以内的图片经过三层压缩，<= 1M
