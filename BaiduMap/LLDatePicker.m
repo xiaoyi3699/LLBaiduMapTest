@@ -14,12 +14,12 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        self.backgroundColor = [UIColor colorWithRed:250/255. green:250/255. blue:250/255. alpha:1];
+        self.backgroundColor = [UIColor colorWithRed:240/255. green:240/255. blue:240/255. alpha:1];
         
         UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         cancelBtn.tag = 0;
-        cancelBtn.frame = CGRectMake(0, 0, 60, 30);
-        cancelBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+        cancelBtn.frame = CGRectMake(0, 0, 60, 40);
+        cancelBtn.titleLabel.font = [UIFont systemFontOfSize:16];
         [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
         [cancelBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         [cancelBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -27,16 +27,16 @@
         
         UIButton *OKBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         OKBtn.tag = 1;
-        OKBtn.frame = CGRectMake(SCREEN_WIDTH-60, 0, 60, 30);
-        OKBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+        OKBtn.frame = CGRectMake(SCREEN_WIDTH-60, 0, 60, 40);
+        OKBtn.titleLabel.font = [UIFont systemFontOfSize:16];
         [OKBtn setTitle:@"确定" forState:UIControlStateNormal];
         [OKBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
         [OKBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:OKBtn];
         
         CGRect rect = frame;
-        rect.origin.y = 30;
-        rect.size.height -= 30;
+        rect.origin.y = 40;
+        rect.size.height -= 40;
         UIDatePicker *datePicker = [[UIDatePicker alloc] init];//时间选择
         datePicker.frame = rect;
         datePicker.backgroundColor = [UIColor whiteColor];

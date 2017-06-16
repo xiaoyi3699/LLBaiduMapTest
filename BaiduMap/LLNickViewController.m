@@ -78,4 +78,8 @@
     [self.view endEditing:YES];
 }
 
+- (void)dealloc {
+    NSLog(@"%@释放",NSStringFromClass([self class]));
+}
+
 @end

@@ -26,6 +26,14 @@
     return self;
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (_timer) {
+        [_timer invalidate];
+        _timer = nil;
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -125,6 +133,10 @@
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     [super touchesBegan:touches withEvent:event];
     [self.view endEditing:YES];
+}
+
+- (void)dealloc {
+    NSLog(@"%@释放",NSStringFromClass([self class]));
 }
 
 @end

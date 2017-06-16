@@ -119,6 +119,7 @@
     activityIndicatorView.color = [UIColor blackColor];
     activityIndicatorView.backgroundColor = [UIColor colorWithRed:200/255. green:200/255. blue:200/255. alpha:.1];
     [_resultTableView addSubview:activityIndicatorView];
+    [activityIndicatorView startAnimating];
     _resultTableView.activityIndicatorView = activityIndicatorView;
     [self.view addSubview:_resultTableView];
     
@@ -366,7 +367,7 @@
 }
 
 - (void)dealloc {
-    NSLog(@"百度地图释放，无内存泄漏");
+    NSLog(@"%@释放",NSStringFromClass([self class]));
 }
 
 @end
