@@ -233,6 +233,7 @@
     [_tableView reloadData];
 }
 
+//导航栏右侧按钮点击事件
 - (void)rightBarButtonItemClick:(UIBarButtonItem *)rightBarButtonItem {
     rightBarButtonItem.title = (_isEditing ? @"编辑" : @"完成");
     _saveBtn.enabled = _isEditing;
