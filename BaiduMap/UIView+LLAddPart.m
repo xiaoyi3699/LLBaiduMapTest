@@ -14,7 +14,7 @@
  追加属性
  */
 static UIActivityIndicatorView *_activityIndicatorView;
-- (void)setIndicatorView:(UIActivityIndicatorView *)activityIndicatorView{
+- (void)setActivityIndicatorView:(UIActivityIndicatorView *)activityIndicatorView {
     activityIndicatorView.hidesWhenStopped = YES;
     objc_setAssociatedObject(self, &_activityIndicatorView, activityIndicatorView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }

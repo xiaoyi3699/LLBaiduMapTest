@@ -34,7 +34,7 @@ typedef void(^transformBlock)();
 @interface UIView (LLAddPart)
 
 #pragma mark - 追加属性
-- (void)setIndicatorView:(UIActivityIndicatorView *)activityIndicatorView;
+- (void)setActivityIndicatorView:(UIActivityIndicatorView *)activityIndicatorView;
 - (UIActivityIndicatorView *)activityIndicatorView;
 
 /**

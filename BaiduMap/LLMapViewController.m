@@ -87,6 +87,11 @@
     _resultTableView.backgroundColor = [UIColor clearColor];
     _resultTableView.rowHeight = 50;
     _resultTableView.tableFooterView = tableFooterView;
+    UIActivityIndicatorView *activityIndicatorView = [[UIActivityIndicatorView alloc] initWithFrame:_resultTableView.bounds];
+    activityIndicatorView.color = [UIColor blackColor];
+    activityIndicatorView.backgroundColor = [UIColor colorWithRed:200/255. green:200/255. blue:200/255. alpha:.1];
+    [_resultTableView addSubview:activityIndicatorView];
+    _resultTableView.activityIndicatorView = activityIndicatorView;
     [self.view addSubview:_resultTableView];
     
     UIButton *OKBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -264,6 +269,7 @@
     if (isSearch) {
         [self reverseGeoCodeWithCLLocationCoordinate2D:coordinate];
         _effectView.hidden = YES;
+        [_resultTableView.activityIndicatorView startAnimating];
     }
 }
 
@@ -296,7 +302,7 @@
 
 ///地理反编码的delegate
 -(void)onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error {
-    
+    [_resultTableView.activityIndicatorView stopAnimating];
     _cityName = result.addressDetail.city;
     _resultPoiInfos = result.poiList;
     [_resultTableView reloadData];
