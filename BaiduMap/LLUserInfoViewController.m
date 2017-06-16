@@ -169,9 +169,7 @@
                 NSLog(@"相册打开失败");
             }
         }];
-        UIAlertAction *action_2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            
-        }];
+        UIAlertAction *action_2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
         [alertController addAction:action_0];
         [alertController addAction:action_1];
         [alertController addAction:action_2];
