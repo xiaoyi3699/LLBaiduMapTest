@@ -8,7 +8,11 @@
 
 #import "LLPhoneViewController.h"
 
-@interface LLPhoneViewController ()
+@interface LLPhoneViewController (){
+    NSTimer    *_timer;
+    UIButton   *_codeBtn;
+    NSInteger  _remainingTime;
+}
 
 @end
 
@@ -55,18 +59,17 @@
     codeTextField.placeholder = @"验证码";
     [inputView addSubview:codeTextField];
     
-    UIButton *codeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    codeBtn.tag = 0;
-    codeBtn.frame = CGRectMake(SCREEN_WIDTH-100, 12.5, 80, 25);
-    codeBtn.layer.masksToBounds = YES;
-    codeBtn.layer.cornerRadius = 5;
-    codeBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-    [codeBtn setTitle:@"发送验证码" forState:UIControlStateNormal];
-    [codeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [codeBtn setBackgroundImage:[UIImage ll_imageWithColor:[UIColor colorWithRed:60/255. green:170/255. blue:70/255. alpha:1]] forState:UIControlStateNormal];
-    [codeBtn setBackgroundImage:[UIImage ll_imageWithColor:[UIColor grayColor]] forState:UIControlStateSelected];
-    [codeBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [inputView addSubview:codeBtn];
+    _codeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    _codeBtn.tag = 0;
+    _codeBtn.frame = CGRectMake(SCREEN_WIDTH-100, 12.5, 80, 25);
+    _codeBtn.layer.masksToBounds = YES;
+    _codeBtn.layer.cornerRadius = 5;
+    _codeBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    [_codeBtn setTitle:@"发送验证码" forState:UIControlStateNormal];
+    [_codeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [_codeBtn setBackgroundImage:[UIImage ll_imageWithColor:[UIColor colorWithRed:60/255. green:170/255. blue:70/255. alpha:1]] forState:UIControlStateNormal];
+    [_codeBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [inputView addSubview:_codeBtn];
     
     UIButton *OKBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     OKBtn.tag = 1;
@@ -83,11 +86,31 @@
 
 - (void)btnClick:(UIButton *)btn {
     if (btn.tag == 0) {//发送验证码
-        
+        btn.enabled = NO;
+        _remainingTime = 59;
+        if (_timer == nil) {
+            _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerRun) userInfo:nil repeats:YES];
+        }
     }
     else {//确定
         
     }
+}
+
+- (void)timerRun {
+    if (_remainingTime > 0) {
+        NSString *remainingTimeStr = [NSString stringWithFormat:@"%lds",(long)_remainingTime];
+        [_codeBtn setTitle:remainingTimeStr forState:UIControlStateNormal];
+    }
+    else {
+        _codeBtn.enabled = YES;
+        [_codeBtn setTitle:@"发送验证码" forState:UIControlStateNormal];
+        if (_timer) {
+            [_timer invalidate];
+            _timer = nil;
+        }
+    }
+    _remainingTime --;
 }
 
 - (NSString *)handlePhone:(NSString *)phone {
