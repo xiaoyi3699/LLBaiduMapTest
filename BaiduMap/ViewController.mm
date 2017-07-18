@@ -8,7 +8,6 @@
 
 #import "ViewController.h"
 #import "LLMapViewController.h"
-#import "LLUserInfoViewController.h"
 
 @interface ViewController ()
 
@@ -21,25 +20,16 @@
     
     self.title = @"首页";
     
-    NSArray *titles = @[@"百度地图",@"个人中心"];
-    for (NSInteger i = 0; i < 2; i ++) {
-        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(100+i*120, 200, 100, 30);
-        btn.tag = i;
-        [btn setTitle:titles[i] forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
-        [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:btn];
-    }
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(100, 200, 100, 30);
+    [btn setTitle:@"百度地图" forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
 }
 
 - (void)btnClick:(UIButton *)btn {
-    if (btn.tag == 0) {
-        [self.navigationController pushViewController:[LLMapViewController new] animated:YES];
-    }
-    else {
-        [self.navigationController pushViewController:[LLUserInfoViewController new] animated:YES];
-    }
+    [self.navigationController pushViewController:[LLMapViewController new] animated:YES];
 }
 
 

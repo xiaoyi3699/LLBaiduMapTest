@@ -93,7 +93,6 @@
     _searchTextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(searchImageView.frame)+5, 4, CGRectGetWidth(inputView.frame)-CGRectGetMaxX(searchImageView.frame)-10, 30)];
     _searchTextField.textColor = [UIColor darkGrayColor];
     _searchTextField.font = [UIFont systemFontOfSize:16];
-    //_searchTextField.text = @"重庆市江北区红旗河沟时代名居C座";
     _searchTextField.placeholder = @"请搜索您的小区或大厦、街道名称";
     _searchTextField.delegate = self;
     [_searchTextField addTarget:self action:@selector(textFieldValueChanged:) forControlEvents:UIControlEventEditingChanged];
