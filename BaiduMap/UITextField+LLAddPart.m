@@ -181,7 +181,12 @@
     [doneBtn setTitle:text forState:UIControlStateNormal];
     [doneBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
     doneBtn.frame = CGRectMake(SCREEN_WIDTH-50, 5, 40, 30);
-    [doneBtn addTarget:self.superview.viewController action:@selector(dealKeyboardHide) forControlEvents:UIControlEventTouchUpInside];
+    if ([self.superview.viewController respondsToSelector:@selector(dealKeyboardHide)]) {
+        [doneBtn addTarget:self.superview.viewController action:@selector(dealKeyboardHide) forControlEvents:UIControlEventTouchUpInside];
+    }
+    else {
+        [doneBtn addTarget:self action:@selector(dealKeyboardHide) forControlEvents:UIControlEventTouchUpInside];
+    }
     [toolView addSubview:doneBtn];
     
     if (message.length) {
