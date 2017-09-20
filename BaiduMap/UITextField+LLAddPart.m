@@ -187,7 +187,7 @@
     else {
         [doneBtn addTarget:self action:@selector(dealKeyboardHide) forControlEvents:UIControlEventTouchUpInside];
     }
-    [toolView addSubview:doneBtn];
+    [toolView.contentView addSubview:doneBtn];
     
     if (message.length) {
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(50, 5, SCREEN_WIDTH-100, 30)];
@@ -195,7 +195,7 @@
         label.font = [UIFont systemFontOfSize:15];
         label.textColor = [UIColor darkTextColor];
         label.textAlignment = NSTextAlignmentCenter;
-        [toolView addSubview:label];
+        [toolView.contentView addSubview:label];
     }
     
     [self setInputAccessoryView:toolView];

@@ -149,7 +149,7 @@
     _searchTableView.backgroundColor = [UIColor clearColor];
     _searchTableView.rowHeight = 50;
     _searchTableView.tableFooterView = tableFooterView;
-    [_effectView addSubview:_searchTableView];
+    [_effectView.contentView addSubview:_searchTableView];
 }
 
 #pragma mark - 私有方法
